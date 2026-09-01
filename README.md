@@ -1,3 +1,6 @@
+## Live Demo
+
+[View the Live Weather Dashboard](https://real-time-kafka-app-pipeline-jkxdbbzsenpktp6h6ssgsu.streamlit.app/)
 # Real-Time Weather Data Pipeline
 
 A real-time data engineering project that collects weather data, streams it through Apache Kafka, processes it using Snowflake's Medallion Architecture, and visualizes analytics through a Streamlit dashboard.
