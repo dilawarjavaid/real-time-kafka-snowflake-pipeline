@@ -17,6 +17,9 @@ st.set_page_config(
 
 st.title("🌤️ Real-Time Weather Analytics")
 st.caption("Kafka → Snowflake → Streamlit")
+if st.button("🔄 Refresh Data"):
+    st.cache_data.clear()
+    st.rerun()
 
 
 @st.cache_resource
@@ -59,31 +62,64 @@ if df.empty:
 else:
     latest = df.iloc[-1]
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
     col1.metric(
-        "Average Temperature",
-        f"{latest['AVG_TEMPERATURE']} °C"
+        "🌡️ Temperature",
+        f"{latest['AVG_TEMPERATURE']:.1f} °C"
     )
 
     col2.metric(
-        "Average Humidity",
-        f"{latest['AVG_HUMIDITY']} %"
+        "💧 Humidity",
+        f"{latest['AVG_HUMIDITY']:.1f}%"
     )
 
     col3.metric(
-        "Average Wind Speed",
-        f"{latest['AVG_WIND_SPEED']} km/h"
+        "💨 Wind Speed",
+        f"{latest['AVG_WIND_SPEED']:.1f} km/h"
     )
 
-    st.subheader("Temperature Over Time")
-
-    st.line_chart(
-        df,
-        x="WEATHER_HOUR",
-        y="AVG_TEMPERATURE"
+    col4.metric(
+        "📊 Readings",
+        f"{int(latest['READING_COUNT']):,}"
     )
 
+    st.subheader("📈 Weather Trends")
+
+    tab1, tab2, tab3 = st.tabs([
+        "Temperature",
+        "Humidity",
+        "Wind Speed"
+    ])
+
+    with tab1:
+        st.line_chart(
+            df,
+            x="WEATHER_HOUR",
+            y="AVG_TEMPERATURE"
+        )
+
+    with tab2:
+        st.line_chart(
+            df,
+            x="WEATHER_HOUR",
+            y="AVG_HUMIDITY"
+        )
+
+    with tab3:
+        st.line_chart(
+            df,
+            x="WEATHER_HOUR",
+            y="AVG_WIND_SPEED"
+        )
+
+    st.subheader("⚙️ Pipeline Overview")
+
+    st.info(
+        "Open-Meteo API → Python Producer → Apache Kafka → "
+        "Snowflake Bronze → Stream + Task → Silver → Gold → Streamlit"
+    )
+    
     st.subheader("Hourly Weather Data")
 
     st.dataframe(
