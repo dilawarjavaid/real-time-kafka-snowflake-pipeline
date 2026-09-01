@@ -2,6 +2,14 @@
 
 A real-time data engineering project that collects weather data, streams it through Apache Kafka, processes it using Snowflake's Medallion Architecture, and visualizes analytics through a Streamlit dashboard.
 
+## Architecture Diagram
+
+![Real-Time Weather Data Pipeline Architecture](docs/architecture.png)
+
+## Dashboard Preview
+
+![Streamlit Weather Analytics Dashboard](docs/dashboard.png)
+
 ## Architecture
 
 ```text
