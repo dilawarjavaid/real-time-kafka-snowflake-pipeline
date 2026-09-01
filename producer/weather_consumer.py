@@ -1,5 +1,5 @@
 import json
-
+from snowflake_loader import insert_weather_data
 from kafka import KafkaConsumer
 
 
@@ -25,3 +25,5 @@ for message in consumer:
         f"Humidity: {weather['humidity']}% | "
         f"Wind: {weather['wind_speed']} km/h"
     )
+
+    insert_weather_data(weather)
